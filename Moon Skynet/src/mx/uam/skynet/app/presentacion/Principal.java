@@ -1,11 +1,11 @@
-package Controlador;
+package mx.uam.skynet.app.presentacion;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 
-import Vista.Busca_pacientes_simple;
+import mx.uam.skynet.app.negocio.*;
 
 public class Principal {
 	
