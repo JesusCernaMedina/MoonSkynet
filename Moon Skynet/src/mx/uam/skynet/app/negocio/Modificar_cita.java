@@ -1,4 +1,4 @@
-package Vista;
+package mx.uam.skynet.app.negocio;
 
 import javax.swing.JFrame;
 

@@ -1,4 +1,4 @@
-package Vista;
+package mx.uam.skynet.app.negocio;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;

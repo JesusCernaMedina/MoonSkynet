@@ -1,4 +1,4 @@
-package Vista;
+package mx.uam.skynet.app.negocio;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -19,7 +19,6 @@ public class Busca_pacientes_simple extends JFrame {
      * Creates new form Busca_pacientes_simple
      */
     public Busca_pacientes_simple() {
-        
         initComponents();
     }
 
