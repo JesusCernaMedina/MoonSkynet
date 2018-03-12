@@ -199,7 +199,7 @@ public class Citas extends JDialog {
 		        }
 			}
 		});
-		btn_Save.setBounds(117, 214, 109, 23);
+		btn_Save.setBounds(104, 212, 129, 23);
 		contentPanel.add(btn_Save);
 		
 		txt_fh_cita = new JTextField();
