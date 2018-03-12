@@ -2,6 +2,7 @@ package mx.uam.skynet.app.persistencia;
 
 import javax.swing.JOptionPane;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -18,8 +19,19 @@ public class ConnectDB {
 	private static String nombre;
 	private static String telefono;
 	private static String correo;
-	private static String fh_nacimento;
+	private static int fh_nacimento;
+	private static String direccion;
 	
+	
+	
+	public static String getDireccion() {
+		return direccion;
+	}
+
+	public static void setDireccion(String direccion) {
+		ConnectDB.direccion = direccion;
+	}
+
 	public static String getApellido() {
 		return apellido;
 	}
@@ -52,11 +64,11 @@ public class ConnectDB {
 		ConnectDB.correo = correo;
 	}
 
-	public static String getFh_nacimento() {
+	public static int getFh_nacimento() {
 		return fh_nacimento;
 	}
 
-	public static void setFh_nacimento(String fh_nacimento) {
+	public static void setFh_nacimento(int fh_nacimento) {
 		ConnectDB.fh_nacimento = fh_nacimento;
 	}
 	
@@ -64,39 +76,76 @@ public class ConnectDB {
 	
 	
 //////////////////inicio Busqueda cliente especifico ////////////////////////@author Gabriel Lopez Hernandez
-	public void buscaClienteEspecifico(String folio) throws SQLException
-	{
-		 ResultSet resultApellido = stm.executeQuery("SELECT apellidos FROM clientes WHERE folio = "+folio);
-         apellido = resultApellido.toString();
+	public void buscaClienteEspecifico(String folio) throws SQLException {
+		System.out.println("Hola1");
+		ResultSet resultApellido = consult("SELECT apellidos FROM pacientes WHERE fol_paciente = '"+folio + "'").executeQuery();
+		if (resultApellido.next()) {
+			apellido = resultApellido.getString(1);
+	        Desconectar();
+		} else {
+			System.out.println("No se encontro nada. 1");
+	        Desconectar();
+		}
 		    
-		    ResultSet resultNombre = stm.executeQuery("SELECT nombre FROM clientes WHERE folio = "+folio);
-		    nombre = resultNombre.toString();
+		    ResultSet resultNombre = consult("SELECT nombre FROM pacientes WHERE fol_paciente = '"+folio+ "'").executeQuery();
+		    if (resultNombre.next()) {
+		    	nombre = resultNombre.getString(1);
+			    Desconectar();
+			} else {
+				System.out.println("No se encontro nada. 2");
+			    Desconectar();
+			}
 		    
-		    ResultSet resultTelefono = stm.executeQuery("SELECT telefono FROM clientes WHERE folio = "+folio);
-		    telefono = resultTelefono.toString();
 		    
-		    ResultSet resultCorreo = stm.executeQuery("SELECT correo FROM clientes WHERE folio = "+folio);
-		    correo =  resultCorreo.toString();
+		    ResultSet resultTelefono = consult("SELECT telefono FROM pacientes WHERE fol_paciente = '"+folio+ "'").executeQuery();
+		    if (resultTelefono.next()) {
+		    	telefono = resultTelefono.getString(1);
+			    Desconectar();
+			} else {
+				System.out.println("No se encontro nada. 3");
+			    Desconectar();
+			}
 		    
-		    ResultSet resultFH_nacimiento = stm.executeQuery("SELECT fh_nacimiento FROM clientes WHERE folio = "+folio);
-		    fh_nacimento = resultFH_nacimiento.toString();
+		    
+		    ResultSet resultCorreo = consult("SELECT correo FROM pacientes WHERE fol_paciente = '"+folio+ "'").executeQuery();
+		    if (resultCorreo.next()) {
+		    	correo =  resultCorreo.getString(1);
+			    Desconectar();
+			} else {
+				System.out.println("No se encontro nada. 4");
+			    Desconectar();
+			}
+		    
+		    
+		    ResultSet resultFH_nacimiento = consult("SELECT fh_nacimiento FROM pacientes WHERE fol_paciente = '"+folio+ "'").executeQuery();
+		    if (resultFH_nacimiento.next()) {
+		    	fh_nacimento = resultFH_nacimiento.getInt(1);
+			    Desconectar();
+			} else {
+				System.out.println("No se encontro nada. 5");
+			    Desconectar();
+			}
          
 	}
 //////////////////Fin busqueda cliente especifico ////////////////////////@author Gabriel Lopez Hernandez
+	
+	public static PreparedStatement consult(String sql) throws SQLException {
+		PreparedStatement consultar = ConnectDB.Conectar().prepareStatement(sql);
+		return consultar;
+	}
 	
 
 	private static Connection expediente;
 	public static  Statement stm;
 	
-    public static Connection Conectar(){
+    public static Connection Conectar() {
         try {
             expediente = DriverManager.getConnection(
             "jdbc:mysql://localhost:3306/moonskynet"
              ,"id3287223_artperform","098mklas");
             
-            stm = expediente.createStatement();
-           
-            
+//            stm = expediente.createStatement();
+
             if(expediente!=null){
                 System.out.println("Conecxion lista..");
                 
