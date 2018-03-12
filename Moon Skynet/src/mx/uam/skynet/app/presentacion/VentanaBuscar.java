@@ -77,7 +77,14 @@ public class VentanaBuscar extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				 ConnectDB conexion = new ConnectDB();
 					try {
-						conexion.buscaClienteEspecifico(folioTF.toString());
+						conexion.buscaClienteEspecifico(folioTF.getText());
+						nombreTF.setText(ConnectDB.getNombre());
+						System.out.println(ConnectDB.getNombre());
+						apellidoTF.setText(ConnectDB.getApellido());
+						fnacimientoTF.setText("" + ConnectDB.getFh_nacimento());
+						direccionTF.setText(ConnectDB.getDireccion());
+						emailTF.setText(ConnectDB.getCorreo());
+						telefonoTF.setText(ConnectDB.getTelefono());
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
