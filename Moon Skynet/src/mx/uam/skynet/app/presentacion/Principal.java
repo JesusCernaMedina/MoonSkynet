@@ -15,7 +15,7 @@ public class Principal {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		try {
-			//Modific Clase principal 4
+			//Modific Clase principal
 			Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 			final int x = screen.width;
 			final int y = screen.height;
