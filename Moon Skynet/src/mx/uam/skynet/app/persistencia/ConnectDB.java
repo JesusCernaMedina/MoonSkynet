@@ -236,8 +236,7 @@ public class ConnectDB {
 		
 		try {
 			System.out.println( fecha_nueva+" "+folio +" "+folio_cita );
-			pst= cn.prepareStatement("delete citas from citas,pacientes where fol_paciente='"+folio+
-					"' and cita_fol_paciente='"+folio_cita+"'");
+			pst= cn.prepareStatement("UPDATE citas, pacientes SET  fh_prox_cita= null WHERE fol_paciente='"+folio+"' AND cita_fol_paciente='"+folio_cita+"'" );
 			row= pst.executeUpdate();
 			System.out.println(row);
 			
@@ -253,6 +252,7 @@ public class ConnectDB {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		
 	}
 
