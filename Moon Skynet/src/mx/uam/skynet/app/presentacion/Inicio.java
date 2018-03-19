@@ -13,11 +13,18 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ImageIcon;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import mx.uam.skynet.app.persistencia.ConnectDB;
+
 import javax.swing.ListSelectionModel;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.awt.event.ActionEvent;
-import javax.swing.SwingConstants;
-import java.awt.Button;
 
 /**
  * 
@@ -83,41 +90,56 @@ public class Inicio extends JFrame {
 		
 		JButton btnNewButton_2 = new JButton("Inventario");
 		
-		table = new JTable();
-		table.setShowHorizontalLines(false);
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-			},
-			new String[] {
-				"Proxima cita", "Nombre", "Descripcion"
-			}
-		) {
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-			boolean[] columnEditables = new boolean[] {
-				false, false, false
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});
-		table.getColumnModel().getColumn(0).setPreferredWidth(72);
-		table.getColumnModel().getColumn(1).setPreferredWidth(109);
-		table.getColumnModel().getColumn(2).setPreferredWidth(111);
+		
+		///////////////////////////////citas de hoy////////////////////////////////////////@gabriel
+        Date date = new Date();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+       
+		DefaultTableModel modelo = new DefaultTableModel();
+		table = new JTable(modelo);
+		
+		System.out.println(dateFormat.format(date));
+		String fechaHoy = dateFormat.format(date);
+		
+		try {
+			ConnectDB.Conectar();
+			
+			ResultSet rsCitas = ConnectDB.consult("SELECT nombre,apellidos,descripcion,pago FROM pacientes,citas WHERE fh_ult_cita LIKE '"+fechaHoy+"%' and fol_paciente = cita_fol_paciente").executeQuery();
+			
+			
+			ResultSetMetaData rsMD = rsCitas.getMetaData();
+			
+			int cantidadColumnas = rsMD.getColumnCount();
+			
+			for (int i = 1; i <= cantidadColumnas; i++) {
+				  modelo.addColumn(rsMD.getColumnLabel(i));
+				 }
+				 
+				 while (rsCitas.next()) {
+				  Object[] fila = new Object[cantidadColumnas];
+				  for (int i = 0; i < cantidadColumnas; i++) {
+				    fila[i]=rsCitas.getObject(i+1);
+				  }
+				  modelo.addRow(fila);
+				 }
+				 rsCitas.close();
+				ConnectDB.Desconectar();
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		//////////////////////////////////fin citas hoy ///////////////////////////////////////
+		
 		table.setToolTipText("");
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setFillsViewportHeight(true);
@@ -160,3 +182,4 @@ public class Inicio extends JFrame {
 		contentPane.setLayout(gl_contentPane);
 	}
 }
+

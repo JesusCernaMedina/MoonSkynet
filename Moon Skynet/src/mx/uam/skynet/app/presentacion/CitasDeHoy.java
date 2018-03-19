@@ -38,9 +38,7 @@ public class CitasDeHoy extends JFrame implements ActionListener {
     
     
     
-    
-    
-    
+   
     
     
 	public static void main(String arg[])
