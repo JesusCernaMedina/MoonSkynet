@@ -48,9 +48,7 @@ public class Inicio extends JFrame {
 			public void run() {
 				try {
 					Inicio frame = new Inicio();
-					VentanaRec recordatorio = new VentanaRec();
 					frame.setVisible(true);
-					recordatorio.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -106,7 +104,7 @@ public class Inicio extends JFrame {
 		try {
 			ConnectDB.Conectar();
 			
-			ResultSet rsCitas = ConnectDB.consult("SELECT nombre,apellidos,descripcion,pago FROM pacientes,citas WHERE fh_prox_cita LIKE '"+fechaHoy+"%' and fol_paciente = cita_fol_paciente").executeQuery();
+			ResultSet rsCitas = ConnectDB.consult("SELECT nombre,apellidos,descripcion,pago FROM pacientes,citas WHERE fh_ult_cita LIKE '"+fechaHoy+"%' and fol_paciente = cita_fol_paciente").executeQuery();
 			
 			
 			ResultSetMetaData rsMD = rsCitas.getMetaData();
@@ -148,12 +146,21 @@ public class Inicio extends JFrame {
 		table.setColumnSelectionAllowed(true);
 		table.setCellSelectionEnabled(true);
 		
-		JButton btnpagos = new JButton("Historial Pagos");
-		btnpagos.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		JButton btnNewButton_1 = new JButton("Notificaciones");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			
+				VentanaRec ventanarec = new VentanaRec();
+				ventanarec.setVisible(true);
+			}
+		});
+		
+		JButton btnNewButton_3 = new JButton("Historial de Pago");
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				
-				VentanaPagos ventana = new VentanaPagos();
-				ventana.setVisible(true);
+				VentanaPagos ventanaPagos = new VentanaPagos();
+				ventanaPagos.setVisible(true);
 			}
 		});
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
@@ -161,20 +168,21 @@ public class Inicio extends JFrame {
 			gl_contentPane.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(table, GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE)
-					.addGap(18)
+					.addComponent(table, GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
 								.addComponent(btnNewButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 								.addComponent(botonBuscaCliente, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 								.addComponent(btnNewButton_2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(btnpagos, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+								.addComponent(btnNewButton_1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(btnNewButton_3, Alignment.TRAILING))
 							.addGap(20))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addComponent(lblDoctora, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
 							.addGap(43)))
-					.addGap(20))
+					.addGap(40))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -191,10 +199,11 @@ public class Inicio extends JFrame {
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(btnNewButton_2)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(btnpagos)))
+							.addComponent(btnNewButton_1)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnNewButton_3)))
 					.addContainerGap())
 		);
 		contentPane.setLayout(gl_contentPane);
 	}
 }
-

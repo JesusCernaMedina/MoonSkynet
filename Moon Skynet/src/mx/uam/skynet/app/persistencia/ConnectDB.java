@@ -277,7 +277,7 @@ public class ConnectDB {
 		try {
 			expediente = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/moonskynet"
-					,"id3287223_artperform","098mklas");
+					,"root","");
 
 			if(expediente!=null){
 
