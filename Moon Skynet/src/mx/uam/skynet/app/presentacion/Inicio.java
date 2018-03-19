@@ -48,7 +48,9 @@ public class Inicio extends JFrame {
 			public void run() {
 				try {
 					Inicio frame = new Inicio();
+					VentanaRec recordatorio = new VentanaRec();
 					frame.setVisible(true);
+					recordatorio.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -104,7 +106,7 @@ public class Inicio extends JFrame {
 		try {
 			ConnectDB.Conectar();
 			
-			ResultSet rsCitas = ConnectDB.consult("SELECT nombre,apellidos,descripcion,pago FROM pacientes,citas WHERE fh_ult_cita LIKE '"+fechaHoy+"%' and fol_paciente = cita_fol_paciente").executeQuery();
+			ResultSet rsCitas = ConnectDB.consult("SELECT nombre,apellidos,descripcion,pago FROM pacientes,citas WHERE fh_prox_cita LIKE '"+fechaHoy+"%' and fol_paciente = cita_fol_paciente").executeQuery();
 			
 			
 			ResultSetMetaData rsMD = rsCitas.getMetaData();
@@ -145,27 +147,38 @@ public class Inicio extends JFrame {
 		table.setFillsViewportHeight(true);
 		table.setColumnSelectionAllowed(true);
 		table.setCellSelectionEnabled(true);
+		
+		JButton btnpagos = new JButton("Historial Pagos");
+		btnpagos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				VentanaPagos ventana = new VentanaPagos();
+				ventana.setVisible(true);
+			}
+		});
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(table, GroupLayout.DEFAULT_SIZE, 397, Short.MAX_VALUE)
+					.addComponent(table, GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE)
 					.addGap(18)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
 								.addComponent(btnNewButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 								.addComponent(botonBuscaCliente, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(btnNewButton_2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+								.addComponent(btnNewButton_2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(btnpagos, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 							.addGap(20))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addComponent(lblDoctora, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
-							.addGap(43))))
+							.addGap(43)))
+					.addGap(20))
 		);
 		gl_contentPane.setVerticalGroup(
-			gl_contentPane.createParallelGroup(Alignment.TRAILING)
-				.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addComponent(table, GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE)
@@ -176,7 +189,9 @@ public class Inicio extends JFrame {
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(botonBuscaCliente)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(btnNewButton_2)))
+							.addComponent(btnNewButton_2)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(btnpagos)))
 					.addContainerGap())
 		);
 		contentPane.setLayout(gl_contentPane);
