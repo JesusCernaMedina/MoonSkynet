@@ -93,7 +93,7 @@ public class Citas extends JDialog {
 			public void actionPerformed(ActionEvent arg0) {
 				try{
 		            PreparedStatement guardar = ConnectDB.Conectar().
-		                    prepareStatement("INSERT INTO citas VALUES ('"+id_cita+"','"+txt_fh_cita.getText()+
+		                    prepareStatement("INSERT INTO citas VALUES ('"+id_cita+"', DEFAULT,'"+txt_fh_cita.getText()+
 		                    		"','"+txt_prox_cita.getText()+"','"+txt_desc.getText()+"','"+txt_tratamiento.getText()+
 		                    		"','"+Integer.parseInt(txt_pago.getText())+"')"); 
 		             int update =guardar.executeUpdate();

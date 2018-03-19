@@ -30,10 +30,10 @@ public class HistorialClinico extends JFrame {
 		
 		initComponents(fol);
 	}
-
+	String folio; 
 
 	private void initComponents(final String fol) throws SQLException {
-		
+		folio = fol;
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		final int x = screen.width;
 		final int y = screen.height;
@@ -124,7 +124,8 @@ public class HistorialClinico extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 		try {
-			Citas dialog = new Citas();
+			
+			Citas dialog = new Citas(Integer.parseInt(fol));
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e1) {

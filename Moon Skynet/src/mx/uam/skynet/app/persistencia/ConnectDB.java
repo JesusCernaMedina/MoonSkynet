@@ -192,7 +192,8 @@ public class ConnectDB {
 		try{
 			
 			st = cn.createStatement();
-			rs= st.executeQuery("SELECT cita_fol_paciente,fh_ult_cita, descripcion, tratamiento, fh_prox_cita FROM pacientes, citas WHERE fol_paciente= '"+folio+"'" );
+			rs= st.executeQuery("SELECT cita_fol_paciente, fh_ult_cita, descripcion, tratamiento, fh_prox_cita "
+					+ "FROM citas WHERE cita_fol_paciente = '"+folio+"'");
 		}
 		catch(SQLException e){
 			e.printStackTrace();
@@ -276,7 +277,7 @@ public class ConnectDB {
 		try {
 			expediente = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/moonskynet"
-					,"root","");
+					,"id3287223_artperform","098mklas");
 
 			if(expediente!=null){
 
