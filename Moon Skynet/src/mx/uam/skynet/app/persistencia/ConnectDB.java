@@ -270,31 +270,28 @@ public class ConnectDB {
 		return consultar;
 	}
 
-	private static Connection expediente;
+	private static Connection connection;
 	public static  Statement stm;
 
 	public static Connection Conectar() {
 		try {
-			expediente = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/moonskynet"
-					,"id3287223_artperform","098mklas");
-
-			if(expediente!=null){
-
-
-			}else if(expediente==null){
+			connection = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/moonskynet", 
+					"id3287223_artperform","098mklas");
+			if(connection!=null){
+				System.out.println("Conecxion lista..");
+			}else if(connection==null){
 				throw new SQLException();
 			}
-
 		} catch(Exception error) {
-			JOptionPane.showMessageDialog(null, "Hubo un error en la conexion"+" a la base de datos"+error);
+			JOptionPane.showMessageDialog(null, "Hubo un error en la conexion a la base de datos. " + error);
 		}
-		return expediente;
+		return connection;
 	}
 
 	public static Connection Desconectar(){
-		expediente=null;
-		return expediente;
+		connection=null;
+		return connection;
 	}
 
 }
