@@ -24,8 +24,6 @@ public class ConnectDB {
 	private static int folio_cita;
 	private int row;
 	
-	
-	
 	public static int getFolio_cita() {
 		return folio_cita;
 	}
@@ -117,70 +115,64 @@ public class ConnectDB {
 	//////////////////Fin de Datos Cliente ////////////////////////@author Gabriel Lopez Hernandez
 
 	//////////////////inicio Busqueda cliente especifico ////////////////////////@author Gabriel Lopez Hernandez
-	public void buscaClienteEspecifico(String folio) throws SQLException {
-	
-
-		ResultSet resultApellido = consult("SELECT apellidos FROM pacientes WHERE fol_paciente = '"+folio + "'").executeQuery();
-		if (resultApellido.next()) {
-			apellido = resultApellido.getString(1);
-			
-			
-			Desconectar();
-		} else {
-//			System.out.println("No se encontro nada. 1");
-			Desconectar();
-		}
-
-		ResultSet resultNombre = consult("SELECT nombre FROM pacientes WHERE fol_paciente = '"+folio+ "'").executeQuery();
-		if (resultNombre.next()) {
-			nombre = resultNombre.getString(1);
-			Desconectar();
-		} else {
-//			System.out.println("No se encontro nada. 2");
-			Desconectar();
-		}
-
-
-		ResultSet resultTelefono = consult("SELECT telefono FROM pacientes WHERE fol_paciente = '"+folio+ "'").executeQuery();
-		if (resultTelefono.next()) {
-			telefono = resultTelefono.getString(1);
-			Desconectar();
-		} else {
-//			System.out.println("No se encontro nada. 3");
-			Desconectar();
-		}
-
-		ResultSet resultCorreo = consult("SELECT correo FROM pacientes WHERE fol_paciente = '"+folio+ "'").executeQuery();
-		if (resultCorreo.next()) {
-			correo =  resultCorreo.getString(1);
-			Desconectar();
-		} else {
-			
-			Desconectar();
-		}
-
-
-		ResultSet resultFH_nacimiento = consult("SELECT fh_nacimiento FROM pacientes WHERE fol_paciente = '"+folio+ "'").executeQuery();
-		if (resultFH_nacimiento.next()) {
-			fh_nacimento = resultFH_nacimiento.getInt(1);
-			Desconectar();
-		} else {
-			
-			Desconectar();
-		}
-		
-
-		ResultSet resultDireccion = consult("SELECT direccion FROM pacientes WHERE fol_paciente = '"+folio+ "'").executeQuery();
-		if (resultDireccion.next()) {
-			direccion = resultDireccion.getString(1);
-			Desconectar();
-		} else {
-			
-			Desconectar();
-		}
-		
-
-	}
+//	public void buscaClienteEspecifico(String folio) throws SQLException {
+//		ResultSet resultApellido = consult("SELECT apellidos FROM pacientes WHERE fol_paciente = '"+folio + "'").executeQuery();
+//		if (resultApellido.next()) {
+//			apellido = resultApellido.getString(1);
+//			Desconectar();
+//		} else {
+////			System.out.println("No se encontro nada. 1");
+//			Desconectar();
+//		}
+//		
+//		ResultSet resultNombre = consult("SELECT nombre FROM pacientes WHERE fol_paciente = '"+folio+ "'").executeQuery();
+//		if (resultNombre.next()) {
+//			nombre = resultNombre.getString(1);
+//			Desconectar();
+//		} else {
+////			System.out.println("No se encontro nada. 2");
+//			Desconectar();
+//		}
+//
+//
+//		ResultSet resultTelefono = consult("SELECT telefono FROM pacientes WHERE fol_paciente = '"+folio+ "'").executeQuery();
+//		if (resultTelefono.next()) {
+//			telefono = resultTelefono.getString(1);
+//			Desconectar();
+//		} else {
+////			System.out.println("No se encontro nada. 3");
+//			Desconectar();
+//		}
+//
+//		ResultSet resultCorreo = consult("SELECT correo FROM pacientes WHERE fol_paciente = '"+folio+ "'").executeQuery();
+//		if (resultCorreo.next()) {
+//			correo =  resultCorreo.getString(1);
+//			Desconectar();
+//		} else {
+//			
+//			Desconectar();
+//		}
+//
+//
+//		ResultSet resultFH_nacimiento = consult("SELECT fh_nacimiento FROM pacientes WHERE fol_paciente = '"+folio+ "'").executeQuery();
+//		if (resultFH_nacimiento.next()) {
+//			fh_nacimento = resultFH_nacimiento.getInt(1);
+//			Desconectar();
+//		} else {
+//			
+//			Desconectar();
+//		}
+//		
+//
+//		ResultSet resultDireccion = consult("SELECT direccion FROM pacientes WHERE fol_paciente = '"+folio+ "'").executeQuery();
+//		if (resultDireccion.next()) {
+//			direccion = resultDireccion.getString(1);
+//			Desconectar();
+//		} else {
+//			
+//			Desconectar();
+//		}
+//	}
 	//////////////////Fin busqueda cliente especifico ////////////////////////@author Gabriel Lopez Hernandez
 
 
@@ -189,13 +181,12 @@ public class ConnectDB {
 		Connection cn= Conectar();
 		Statement st;
 		ResultSet rs = null;
-		try{
+		try {
 			
 			st = cn.createStatement();
 			rs= st.executeQuery("SELECT cita_fol_paciente, fh_ult_cita, descripcion, tratamiento, fh_prox_cita "
 					+ "FROM citas WHERE cita_fol_paciente = '"+folio+"'");
-		}
-		catch(SQLException e){
+		} catch(SQLException e) {
 			e.printStackTrace();
 		}
 		return rs;
@@ -203,59 +194,59 @@ public class ConnectDB {
 	
 //	POSTPONE APPOINTMENT
 
-	public void postponeButton(String folio, int folio_cita, String fecha_nueva){
-		Connection cn= Conectar();
-		PreparedStatement pst;
-		
-		try {
-			System.out.println( fecha_nueva+" "+folio +" "+folio_cita );
-			pst= cn.prepareStatement("UPDATE citas, pacientes SET  fh_prox_cita= '"+fecha_nueva+"' WHERE fol_paciente='"+folio+"' AND cita_fol_paciente='"+folio_cita+"'" );
-			row= pst.executeUpdate();
-			System.out.println(row);
-			
-			if (row>0) {
-				System.out.println("Se ha actualizado correctamente");
-				
-				Desconectar();
-			} else {
-				
-				Desconectar();
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
-	}
+//	public void postponeButton(String folio, int folio_cita, String fecha_nueva){
+//		Connection cn= Conectar();
+//		PreparedStatement pst;
+//		
+//		try {
+//			System.out.println( fecha_nueva+" "+folio +" "+folio_cita );
+//			pst= cn.prepareStatement("UPDATE citas, pacientes SET  fh_prox_cita= '"+fecha_nueva+"' WHERE fol_paciente='"+folio+"' AND cita_fol_paciente='"+folio_cita+"'");
+//			row= pst.executeUpdate();
+//			System.out.println(row);
+//			
+//			if (row>0) {
+//				System.out.println("Se ha actualizado correctamente");
+//				
+//				Desconectar();
+//			} else {
+//				
+//				Desconectar();
+//			}
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+//		
+//	}
 	
 	// CANCEL APPOINTMENT 
-	public void cancelButton(String folio, int folio_cita, String fecha_nueva){
-		
-		Connection cn= Conectar();
-		PreparedStatement pst;
-		
-		try {
-			System.out.println( fecha_nueva+" "+folio +" "+folio_cita );
-			pst= cn.prepareStatement("UPDATE citas, pacientes SET  fh_prox_cita= null WHERE fol_paciente='"+folio+"' AND cita_fol_paciente='"+folio_cita+"'" );
-			row= pst.executeUpdate();
-			System.out.println(row);
-			
-			if (row>0) {
-				System.out.println("Se ha actualizado correctamente");
-				
-				Desconectar();
-			} else {
-				
-				Desconectar();
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
-	}
+//	public void cancelButton(String folio, int folio_cita, String fecha_nueva){
+//		
+//		Connection cn= Conectar();
+//		PreparedStatement pst;
+//		
+//		try {
+//			System.out.println( fecha_nueva+" "+folio +" "+folio_cita );
+//			pst= cn.prepareStatement("UPDATE citas, pacientes SET  fh_prox_cita= null WHERE fol_paciente='"+folio+"' AND cita_fol_paciente='"+folio_cita+"'" );
+//			row= pst.executeUpdate();
+//			System.out.println(row);
+//			
+//			if (row>0) {
+//				System.out.println("Se ha actualizado correctamente");
+//				
+//				Desconectar();
+//			} else {
+//				
+//				Desconectar();
+//			}
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+//		
+//	}
 
 	public int getRow() {
 		return row;
@@ -290,23 +281,21 @@ public class ConnectDB {
 	}
 
 	public static Connection Desconectar(){
-		connection=null;
+		connection = null;
 		return connection;
 	}
 	
-	public ResultSet Inventario() {
-		// TODO Auto-generated method stub
-		Connection cn= Conectar();
-		Statement st;
-		ResultSet rs = null;
-		try {
-			st = cn.createStatement();
-			rs= st.executeQuery("SELECT * FROM inventario ");
-		}
-		catch(SQLException e){
-			e.printStackTrace();
-		}
-		return rs;
-	}
-
+//	public ResultSet Inventario() {
+//		Connection cn= Conectar();
+//		Statement st;
+//		ResultSet rs = null;
+//		try {
+//			st = cn.createStatement();
+//			rs= st.executeQuery("SELECT * FROM inventario ");
+//		}
+//		catch(SQLException e){
+//			e.printStackTrace();
+//		}
+//		return rs;
+//	}
 }
