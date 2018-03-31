@@ -10,7 +10,7 @@ public class Querys implements RequestSql {
 	
 	private Connection con;
 	
-	Querys(Connection con) {
+	public Querys(Connection con) {
 		this.con = con;
 	}
 
@@ -29,7 +29,7 @@ public class Querys implements RequestSql {
 	}
 
 	@Override
-	public PreparedStatement select(String columns, String tables, String where) throws SQLException {
+	public PreparedStatement selectWhere(String columns, String tables, String where) throws SQLException {
 		// TODO Auto-generated method stub
 		return con.prepareStatement("SELECT " + columns + " FROM " + tables + " WHERE " + where);
 	}
@@ -39,6 +39,12 @@ public class Querys implements RequestSql {
 		// TODO Auto-generated method stub
 		PreparedStatement update = con.prepareStatement("DELETE FROM " + table + " WHERE " + where);
 		return update.executeUpdate();
+	}
+
+	@Override
+	public PreparedStatement select(String columns, String tables) throws SQLException {
+		// TODO Auto-generated method stub
+		return con.prepareStatement("SELECT " + columns + " FROM " + tables);
 	}
 
 }

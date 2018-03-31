@@ -278,13 +278,13 @@ public class ConnectDB {
 			connection = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/moonskynet", 
 					"id3287223_artperform","098mklas");
-			if(connection!=null){
+			if(connection != null){
 				System.out.println("Conecxion lista..");
-			}else if(connection==null){
+			} else if(connection == null) {
 				throw new SQLException();
 			}
-		} catch(Exception error) {
-			JOptionPane.showMessageDialog(null, "Hubo un error en la conexion a la base de datos. " + error);
+		} catch(SQLException err) {
+			JOptionPane.showMessageDialog(null, "Hubo un error en la conexion a la base de datos. " + err);
 		}
 		return connection;
 	}
@@ -292,6 +292,21 @@ public class ConnectDB {
 	public static Connection Desconectar(){
 		connection=null;
 		return connection;
+	}
+	
+	public ResultSet Inventario() {
+		// TODO Auto-generated method stub
+		Connection cn= Conectar();
+		Statement st;
+		ResultSet rs = null;
+		try {
+			st = cn.createStatement();
+			rs= st.executeQuery("SELECT * FROM inventario ");
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+		}
+		return rs;
 	}
 
 }

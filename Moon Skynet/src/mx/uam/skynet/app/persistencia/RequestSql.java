@@ -32,7 +32,16 @@ public interface RequestSql {
 	 * @return Retorna el objeto con los valores de cada columna.
 	 * @throws SQLException
 	 */
-	public PreparedStatement select(String columns, String tables, String where) throws SQLException;
+	public PreparedStatement selectWhere(String columns, String tables, String where) throws SQLException;
+	
+	/**
+	 * Metodo encargado de seleccionar en la base de datos.
+	 * @param columns Columnas a mostrar.
+	 * @param tables Tablas a seleccionar.
+	 * @return Retorna el objeto con los valores de cada columna.
+	 * @throws SQLException
+	 */
+	public PreparedStatement select(String columns, String tables) throws SQLException;
 	
 	/**
 	 * Metodo encargado de borrar en la base de datos.
