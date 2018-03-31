@@ -23,6 +23,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import mx.uam.skynet.app.persistencia.ConnectDB;
+import mx.uam.skynet.app.persistencia.Querys;
 
 /**
  * 
@@ -109,22 +110,22 @@ public class AddClient extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				int id_paciente = 0;
 				try{
-		            PreparedStatement guardar = ConnectDB.Conectar().
-		                    prepareStatement("INSERT INTO pacientes VALUES (DEFAULT,'"+name.getText()+"','"+last_name.getText()+
-		                    		"','"+phone.getText()+"','"+email.getText()+"','"+Integer.parseInt(age.getText())+"',+'"+address.getText()+"')"); 
-		             int update =guardar.executeUpdate();
-		            if(update==1){
+					Querys query = new Querys(ConnectDB.Conectar()); 
+		             int update = query.insert("pacientes", "DEFAULT,'"+name.getText()+"','"+last_name.getText()+
+								"','"+phone.getText()+"','"+email.getText()+"','"+Integer.parseInt(age.getText())+"','"+address.getText()+"'");
+		            if(update == 1){
 		                JOptionPane.showMessageDialog(null, "Datos guardados con exito");
-		                PreparedStatement buscar = ConnectDB.Conectar().prepareStatement("SELECT MAX(fol_paciente) FROM pacientes");
-		                ResultSet query = buscar.executeQuery();
+		                PreparedStatement buscar = query.select("MAX(fol_paciente)", "pacientes");
+		                ResultSet select = buscar.executeQuery();
 		                
-		                while(query.next()){
-		                	id_paciente = query.getInt(1);
+		                while(select.next()) {
+		                	id_paciente = select.getInt(1);
 		                	System.out.println("Folio: " + id_paciente);
 		                }
+		                dispose();
 		                Citas cita = new Citas(id_paciente);
 		                cita.setVisible(true);
-		            }else {
+		            } else {
 		                JOptionPane.showMessageDialog(null, "Datos NO guardados");
 		            }
 		                                 

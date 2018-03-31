@@ -1,6 +1,8 @@
 package mx.uam.skynet.app.presentacion;
 
+import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -89,6 +91,30 @@ public class Inicio extends JFrame {
 		
 		
 		JButton btnNewButton_2 = new JButton("Inventario");
+		btnNewButton_2.addActionListener(new ActionListener() {	
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				Inventario ventanaInventario;
+				
+				try { 
+					ventanaInventario= new Inventario();
+					ventanaInventario.setVisible(true);
+					ventanaInventario.setTitle("Inventario");
+					Dimension screen=Toolkit.getDefaultToolkit().getScreenSize();
+					int height = screen.height;
+					int width =screen.width;
+					ventanaInventario.setLocation(50,50);
+					ventanaInventario.setSize(width-100,height-100);
+					ventanaInventario.setResizable(false);
+					
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+		
+				}
+			
+		});
 		
 		
 		///////////////////////////////citas de hoy////////////////////////////////////////@gabriel
