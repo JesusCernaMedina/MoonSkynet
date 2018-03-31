@@ -15,6 +15,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import mx.uam.skynet.app.persistencia.ConnectDB;
+import mx.uam.skynet.app.persistencia.Querys;
 
 import javax.swing.ListSelectionModel;
 import java.awt.event.ActionListener;
@@ -73,9 +74,9 @@ public class VentanaPagos extends JFrame {
 		table = new JTable(modelo);
 	
 		try {
-			ConnectDB.Conectar();
+			Querys query = new Querys(ConnectDB.Conectar());
 			
-			ResultSet rsCitas = ConnectDB.consult("SELECT nombre,apellidos,pago FROM pacientes,citas WHERE fol_paciente = cita_fol_paciente").executeQuery();
+			ResultSet rsCitas = query.selectWhere("nombre,apellidos,pago", "pacientes,citas", "fol_paciente = cita_fol_paciente").executeQuery();
 			
 			
 			ResultSetMetaData rsMD = rsCitas.getMetaData();

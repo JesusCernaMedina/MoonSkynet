@@ -17,6 +17,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import mx.uam.skynet.app.persistencia.ConnectDB;
+import mx.uam.skynet.app.persistencia.Querys;
 
 import javax.swing.ListSelectionModel;
 import java.awt.event.ActionListener;
@@ -129,9 +130,8 @@ public class Inicio extends JFrame {
 		
 		try {
 			ConnectDB.Conectar();
-			
-			ResultSet rsCitas = ConnectDB.consult("SELECT nombre,apellidos,descripcion,pago FROM pacientes,citas WHERE fh_ult_cita LIKE '"+fechaHoy+"%' and fol_paciente = cita_fol_paciente").executeQuery();
-			
+			Querys query = new Querys(ConnectDB.Conectar());
+			ResultSet rsCitas = query.selectWhere("nombre,apellidos,descripcion,pago", "pacientes,citas", "fh_ult_cita LIKE '"+fechaHoy+"%' and fol_paciente = cita_fol_paciente").executeQuery();			
 			
 			ResultSetMetaData rsMD = rsCitas.getMetaData();
 			

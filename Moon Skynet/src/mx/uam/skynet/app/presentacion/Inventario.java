@@ -21,6 +21,7 @@ import javax.swing.table.DefaultTableModel;
 
 import mx.uam.skynet.app.negocio.Modificar_cita;
 import mx.uam.skynet.app.persistencia.ConnectDB;
+import mx.uam.skynet.app.persistencia.Querys;
 
 public class Inventario extends JFrame {
 	/**
@@ -80,9 +81,9 @@ public class Inventario extends JFrame {
 		DefaultTableModel dfm = new DefaultTableModel();
 		datos.setModel(dfm);
 		dfm.setColumnIdentifiers(new Object[]{"Folio de Inventario","Nombre de material","Cantidad"});
-		
-		ConnectDB con = new ConnectDB();
-		rs = con.Inventario();
+
+		Querys query = new Querys(ConnectDB.Conectar());
+		rs = query.select("*", "inventario").executeQuery();
 		 	try{
 		 		while(rs.next()){
 		 			dfm.addRow(new Object[]{rs.getInt("fol_inventario"),rs.getString("nombre_material"),rs.getInt("cantidad")});

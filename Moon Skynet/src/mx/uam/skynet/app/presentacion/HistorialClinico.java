@@ -13,12 +13,13 @@ import javax.swing.JLabel;
 import javax.swing.table.DefaultTableModel;
 
 import mx.uam.skynet.app.persistencia.ConnectDB;
+import mx.uam.skynet.app.persistencia.Querys;
 
 
 public class HistorialClinico extends JFrame {
-	ResultSet rs;
-	JLabel label1 = new JLabel();
-
+	
+	private ResultSet rs;
+	private JLabel label1 = new JLabel();
 
 	private static final long serialVersionUID = 1L;
 
@@ -27,7 +28,6 @@ public class HistorialClinico extends JFrame {
 	 * @throws SQLException 
 	 */
 	public HistorialClinico(String fol) throws SQLException {
-		
 		initComponents(fol);
 	}
 	String folio; 
@@ -57,7 +57,6 @@ public class HistorialClinico extends JFrame {
 		label3.setFont(new java.awt.Font("Arabic Typesetting", 0, 48)); // NOI18N
 		label3.setText("Historial Cl\u00ednico");
 
-
 		setBackground(new java.awt.Color(255, 255, 255));
 		getContentPane().setLayout(null);
 
@@ -70,17 +69,16 @@ public class HistorialClinico extends JFrame {
 		panel1.add(label1);
 		label1.setBounds(0, 0, 1172, 92);
 
-
-
 		jTable2.setFont(new java.awt.Font("Arabic Typesetting", 0, 20)); // NOI18N
 		
 		DefaultTableModel dfm = new DefaultTableModel();
 		jTable2.setModel(dfm);
 		dfm.setColumnIdentifiers(new Object[]{"Folio de cita","Ultima cita","Descripci\u00f3n","Tratamiento","Pr\u00f3xima cita"});
 		
-		ConnectDB con = new ConnectDB();
-		rs= con.AppointmentPatient(fol);
+		Querys query = new Querys(ConnectDB.Conectar());	
 		 	try{
+		 		rs = query.selectWhere("cita_fol_paciente, fh_ult_cita, descripcion, tratamiento, fh_prox_cita", 
+		 				"citas", "cita_fol_paciente = '"+fol+"'").executeQuery();
 		 		while(rs.next()){
 		 			dfm.addRow(new Object[]{rs.getInt("cita_fol_paciente"),rs.getString("fh_ult_cita"),rs.getString("descripcion"), rs.getString("tratamiento"), rs.getString("fh_prox_cita")});
 		 		}
@@ -88,9 +86,7 @@ public class HistorialClinico extends JFrame {
 		 	catch(Exception e){
 		 		e.printStackTrace();
 		 	}
-		
-			
-
+		 	
 		jScrollPane2.setViewportView(jTable2);
 
 		panel1.add(jScrollPane2);

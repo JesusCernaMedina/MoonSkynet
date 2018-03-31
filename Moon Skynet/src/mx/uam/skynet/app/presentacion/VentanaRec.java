@@ -15,6 +15,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import mx.uam.skynet.app.persistencia.ConnectDB;
+import mx.uam.skynet.app.persistencia.Querys;
 
 import javax.swing.ListSelectionModel;
 import java.awt.event.ActionListener;
@@ -101,10 +102,8 @@ public class VentanaRec extends JFrame {
 		////////////////fin fecha mañana///////////////////////////
 		
 		try {
-			ConnectDB.Conectar();
-			
-			ResultSet rsCitas = ConnectDB.consult("SELECT nombre,apellidos,descripcion,pago FROM pacientes,citas WHERE fh_prox_cita LIKE '"+fechaManana+"%' and fol_paciente = cita_fol_paciente").executeQuery();
-			
+			Querys query = new Querys(ConnectDB.Conectar());			
+			ResultSet rsCitas = query.selectWhere("nombre,apellidos,descripcion,pago", "pacientes,citas", "fh_prox_cita LIKE '"+fechaManana+"%' and fol_paciente = cita_fol_paciente").executeQuery();
 			
 			ResultSetMetaData rsMD = rsCitas.getMetaData();
 			
@@ -129,13 +128,6 @@ public class VentanaRec extends JFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		
-		
-		
-		
-		
 		
 		//////////////////////////////////fin citas hoy ///////////////////////////////////////
 		

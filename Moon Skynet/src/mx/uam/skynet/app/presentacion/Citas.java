@@ -78,8 +78,6 @@ public class Citas extends JDialog {
 		});
 	}
 	
-	
-
 	/**
 	 * Create the dialog.
 	 */

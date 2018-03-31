@@ -14,6 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import mx.uam.skynet.app.persistencia.ConnectDB;
+import mx.uam.skynet.app.persistencia.Querys;
 
 /**
  *
@@ -166,12 +167,13 @@ public class ModificarCita extends JFrame {
         jButton1.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
 				ConnectDB cn = new ConnectDB();
+				Querys query = new Querys(ConnectDB.Conectar());
 				int Confirm;
 				Confirm=JOptionPane.showConfirmDialog(null, "Esta seguro de Cancelar la cita");
 				if(JOptionPane.OK_OPTION == Confirm){
-					cn.cancelButton(folio, Integer.parseInt(Folio_cita.getText()),Fecha_nueva_cita.getText());
-					JOptionPane.showMessageDialog(null, "Se ha actualizado la pr\u00f3xima cita al d\u00eda: "+Fecha_nueva_cita.getText());
 					try {
+						query.update("citas, pacientes", "fh_prox_cita = null", "fol_paciente='"+folio+"' AND cita_fol_paciente='"+Folio_cita.getText()+"'");
+						JOptionPane.showMessageDialog(null, "Se ha actualizado la pr\u00f3xima cita al d\u00eda: "+Fecha_nueva_cita.getText());
 						HistorialClinico newwindows;
 						newwindows = new HistorialClinico(folio);
 						newwindows.dispose();
@@ -222,13 +224,13 @@ public class ModificarCita extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				ConnectDB cn = new ConnectDB();
-				
+				Querys query = new Querys(ConnectDB.Conectar());
 					int Confirm;
 					Confirm=JOptionPane.showConfirmDialog(null, "Esta seguro de querer posponer la cita a "+Fecha_nueva_cita.getText());
-					if(JOptionPane.OK_OPTION == Confirm){
-						cn.postponeButton(folio, Integer.parseInt(Folio_cita.getText()),Fecha_nueva_cita.getText());
+					if(JOptionPane.OK_OPTION == Confirm) {
 						JOptionPane.showMessageDialog(null, "Se ha actualizado la pr\u00f3xima cita al d\u00eda: "+Fecha_nueva_cita.getText());
 						try {
+							query.update("citas, pacientes", "fh_prox_cita= '"+Fecha_nueva_cita.getText()+"'", "fol_paciente='"+folio+"' AND cita_fol_paciente='"+Folio_cita.getText()+"'");
 							HistorialClinico newwindows;
 							newwindows = new HistorialClinico(folio);
 							newwindows.dispose();
@@ -241,17 +243,13 @@ public class ModificarCita extends JFrame {
 							newwindows.setSize(width-100, height-100);
 							newwindows.setResizable(false);
 						} catch (Exception e1) {
-							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-					}
-					else{
+					} else {
 						JOptionPane.showMessageDialog(null,"Se han cancelado la posposici\u00f3n exitosamente");					
 					}
 		}});
         
-        
-
         getContentPane().add(jPanel1);
         jPanel1.setBounds(0, 0, 670, 410);
 

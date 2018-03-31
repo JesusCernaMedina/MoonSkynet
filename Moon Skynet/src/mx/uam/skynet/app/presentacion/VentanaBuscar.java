@@ -9,6 +9,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import mx.uam.skynet.app.persistencia.ConnectDB;
+import mx.uam.skynet.app.persistencia.Querys;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
@@ -44,8 +46,14 @@ public class VentanaBuscar extends JFrame {
 	private JLabel lblCorreo;
 	private JLabel lblTelefono;
 	
-	
 	public String folioDB;
+	
+	private String apellido;
+	private String nombre;
+	private String telefono;
+	private String correo;
+	private int fh_nacimento;
+	private String direccion;
 
 	/**
 	 * Launch the application.
@@ -62,6 +70,66 @@ public class VentanaBuscar extends JFrame {
 			}
 		});
 	}
+	
+	public void buscaClienteEspecifico(String folio) throws SQLException {
+		Querys query = new Querys(ConnectDB.Conectar());
+		
+		ResultSet resultApellido = query.selectWhere("apellidos", "pacientes", "fol_paciente = '"+folio + "'").executeQuery();
+		if (resultApellido.next()) {
+			apellido = resultApellido.getString(1);
+			ConnectDB.Desconectar();
+		} else {
+//			System.out.println("No se encontro nada. 1");
+			ConnectDB.Desconectar();
+		}
+		
+		ResultSet resultNombre = query.selectWhere("nombre", "pacientes", "fol_paciente = '"+folio+ "'").executeQuery();
+		if (resultNombre.next()) {
+			nombre = resultNombre.getString(1);
+			ConnectDB.Desconectar();
+		} else {
+//			System.out.println("No se encontro nada. 2");
+			ConnectDB.Desconectar();
+		}
+
+
+		ResultSet resultTelefono = query.selectWhere("telefono", "pacientes", "fol_paciente = '"+folio+ "'").executeQuery();
+		if (resultTelefono.next()) {
+			telefono = resultTelefono.getString(1);
+			ConnectDB.Desconectar();
+		} else {
+//			System.out.println("No se encontro nada. 3");
+			ConnectDB.Desconectar();
+		}
+
+		ResultSet resultCorreo = query.selectWhere("correo", "pacientes", "fol_paciente = '"+folio+ "'").executeQuery();
+		if (resultCorreo.next()) {
+			correo =  resultCorreo.getString(1);
+			ConnectDB.Desconectar();
+		} else {
+			
+			ConnectDB.Desconectar();
+		}
+
+
+		ResultSet resultFH_nacimiento = query.selectWhere("fh_nacimiento", "pacientes", "fol_paciente = '"+folio+ "'").executeQuery();
+		if (resultFH_nacimiento.next()) {
+			fh_nacimento = resultFH_nacimiento.getInt(1);
+			ConnectDB.Desconectar();
+		} else {
+			
+			ConnectDB.Desconectar();
+		}
+		
+
+		ResultSet resultDireccion = query.selectWhere("direccion", "pacientes", "fol_paciente = '"+folio+ "'").executeQuery();
+		if (resultDireccion.next()) {
+			direccion = resultDireccion.getString(1);
+			ConnectDB.Desconectar();
+		} else {
+			ConnectDB.Desconectar();
+		}
+	}
 
 	/**
 	 * Create the frame.
@@ -73,8 +141,7 @@ public class VentanaBuscar extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		
-	
+			
 		JLabel lblFolio = new JLabel("Folio:");
 		folioTF = new JTextField();
 		folioTF.setColumns(10);
@@ -122,21 +189,19 @@ public class VentanaBuscar extends JFrame {
 		
 		botonBuscaCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				 ConnectDB conexion = new ConnectDB();
 					try {
-						conexion.buscaClienteEspecifico(folioTF.getText());
-						nombreTF.setText(ConnectDB.getNombre());
-						System.out.println(ConnectDB.getNombre());
-						apellidoTF.setText(ConnectDB.getApellido());
-						fnacimientoTF.setText("" + ConnectDB.getFh_nacimento());
-						direccionTF.setText(ConnectDB.getDireccion());
-						emailTF.setText(ConnectDB.getCorreo());
-						telefonoTF.setText(ConnectDB.getTelefono());
+						buscaClienteEspecifico(folioTF.getText());
+						nombreTF.setText(nombre);
+						System.out.println(nombre);
+						apellidoTF.setText(apellido);
+						fnacimientoTF.setText("" + fh_nacimento);
+						direccionTF.setText(direccion);
+						emailTF.setText(correo);
+						telefonoTF.setText(telefono);
 						
-					if(ConnectDB.getNombre()!=null){
+						if(telefono != null){
 							button.setEnabled(true);	
-						}
-						else{
+						} else {
 							button.setEnabled(false);
 						}
 						
@@ -153,13 +218,16 @@ public class VentanaBuscar extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 								
 						try{
-				            PreparedStatement guardar = ConnectDB.Conectar().
-				                    prepareStatement("UPDATE pacientes set nombre='"+nombreTF.getText()+"',apellidos='"+apellidoTF.getText()+
-				                    		"',telefono='"+telefonoTF.getText()+"',correo='"+emailTF.getText()+"',fh_nacimiento='"+Integer.parseInt(fnacimientoTF.getText())+
-				                    		"', direccion='"+direccionTF.getText()+ "'where fol_paciente ="+Integer.parseInt(folioTF.getText()));                                 
+							Querys query = new Querys(ConnectDB.Conectar());
+//				            PreparedStatement guardar = ConnectDB.Conectar().
+//				                    prepareStatement("UPDATE pacientes set nombre='"+nombreTF.getText()+"',apellidos='"+apellidoTF.getText()+
+//				                    		"',telefono='"+telefonoTF.getText()+"',correo='"+emailTF.getText()+"',fh_nacimiento='"+Integer.parseInt(fnacimientoTF.getText())+
+//				                    		"', direccion='"+direccionTF.getText()+ "'where fol_paciente ="+Integer.parseInt(folioTF.getText()));                                 
 				             
 		
-				            int update =guardar.executeUpdate();
+				            int update = query.update("pacientes", "nombre='"+nombreTF.getText()+"',apellidos='"+apellidoTF.getText()+"',telefono='"+telefonoTF.getText()+
+									"',correo='"+emailTF.getText()+"',fh_nacimiento='"+Integer.parseInt(fnacimientoTF.getText())+
+									"', direccion='"+direccionTF.getText() +"'", "fol_paciente ="+Integer.parseInt(folioTF.getText()));
 				            if(update==1){
 				                JOptionPane.showMessageDialog(null, "Datos guardados con exito");
 				         

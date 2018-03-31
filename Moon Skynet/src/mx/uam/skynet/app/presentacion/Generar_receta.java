@@ -79,9 +79,6 @@ public class Generar_receta extends JFrame{
 		btngenerarPDF = new JButton();
 		chooser = new JFileChooser();
 
-
-
-
 		setBackground(new java.awt.Color(255, 255, 255));
 		getContentPane().setLayout(null);
 
@@ -94,19 +91,12 @@ public class Generar_receta extends JFrame{
 		panel1.add(title);
 		title.setBounds((windowx/2)-245, 0, 245, 92);
 
-
-
-
-
-
 		lblpaciente.setBackground(new java.awt.Color(204, 204, 204));
 		lblpaciente.setFont(new java.awt.Font("Arabic Typesetting", 0, 36)); // NOI18N
 		lblpaciente.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 		lblpaciente.setText("Paciente:");
 		panel1.add(lblpaciente);
 		lblpaciente.setBounds(40, 100, 100, 30);
-
-
 
 		lblquery.setFont(new Font("Arabic Typesetting", 1, 36)); // NOI18N
 		lblquery.setHorizontalAlignment(JTextField.CENTER);
@@ -119,7 +109,6 @@ public class Generar_receta extends JFrame{
 		lblFecha.setText("Fecha:");
 		panel1.add(lblFecha);
 		lblFecha.setBounds((windowx/2)-300, 175, 100, 30);
-
 
 		txtFecha.setBounds((windowx/2)-200, 175, 200, 30);
 		txtFecha.setText("DIA de MES de AÑO ");
@@ -313,11 +302,6 @@ public class Generar_receta extends JFrame{
 	private JTextField  txtTratamiento;
 	private JTextField txtFecha;
 	private JFileChooser chooser;
-
-
-
-
-
 
 	private JPanel panel1;
 
