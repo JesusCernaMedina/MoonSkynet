@@ -65,7 +65,7 @@ public class ModificarCita extends JFrame {
 
         jLabel3.setFont(new java.awt.Font("Arabic Typesetting", 0, 24)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Folio de Cita:");
+        jLabel3.setText("Numero de Cita:");
         jPanel1.add(jLabel3);
         jLabel3.setBounds(30, 80, 160, 30);
         
@@ -172,7 +172,7 @@ public class ModificarCita extends JFrame {
 				Confirm=JOptionPane.showConfirmDialog(null, "Esta seguro de Cancelar la cita");
 				if(JOptionPane.OK_OPTION == Confirm){
 					try {
-						query.update("citas, pacientes", "fh_prox_cita = null", "fol_paciente='"+folio+"' AND cita_fol_paciente='"+Folio_cita.getText()+"'");
+						query.update("citas", "fh_prox_cita = null", "cita_fol_paciente='"+folio+"' AND num_cita='"+Folio_cita.getText()+"'");
 						JOptionPane.showMessageDialog(null, "Se ha actualizado la pr\u00f3xima cita al d\u00eda: "+Fecha_nueva_cita.getText());
 						HistorialClinico newwindows;
 						newwindows = new HistorialClinico(folio);
@@ -230,7 +230,7 @@ public class ModificarCita extends JFrame {
 					if(JOptionPane.OK_OPTION == Confirm) {
 						JOptionPane.showMessageDialog(null, "Se ha actualizado la pr\u00f3xima cita al d\u00eda: "+Fecha_nueva_cita.getText());
 						try {
-							query.update("citas, pacientes", "fh_prox_cita= '"+Fecha_nueva_cita.getText()+"'", "fol_paciente='"+folio+"' AND cita_fol_paciente='"+Folio_cita.getText()+"'");
+							query.update("citas", "fh_prox_cita= '"+Fecha_nueva_cita.getText()+"'", "cita_fol_paciente='"+folio+"' AND num_cita='"+Folio_cita.getText()+"'");
 							HistorialClinico newwindows;
 							newwindows = new HistorialClinico(folio);
 							newwindows.dispose();
