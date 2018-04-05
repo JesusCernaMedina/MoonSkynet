@@ -270,7 +270,7 @@ public class ConnectDB {
 					"jdbc:mysql://localhost:3306/moonskynet", 
 					"id3287223_artperform","098mklas");
 			if(connection != null){
-				System.out.println("Conecxion lista..");
+				System.out.println("Conexion lista..");
 			} else if(connection == null) {
 				throw new SQLException();
 			}
