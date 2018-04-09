@@ -10,27 +10,26 @@ import java.awt.event.MouseListener;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import mx.uam.skynet.app.negocio.ControlModificarCita;
 import mx.uam.skynet.app.persistencia.ConnectDB;
 import mx.uam.skynet.app.persistencia.Querys;
 
 /**
  *
- * @author Familia
+ * @author Jesus Cerna Medina
  */
-public class ModificarCita extends JFrame {
+public class VentanaModificarCita extends JFrame {
 
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	/**
-     * Creates new form Modificar_cita
-     */
-    public ModificarCita(String folio) {
-        initComponents(folio);
+	private ControlModificarCita ctrl;
+	
+    public VentanaModificarCita(ControlModificarCita ctrl) {
+    	this.ctrl = ctrl;
+        initComponents();
     }
 
     /**
@@ -40,14 +39,14 @@ public class ModificarCita extends JFrame {
      */
     
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents(final String folio) {
+    private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        Fecha_nueva_cita = new javax.swing.JTextField();
-        Folio_cita = new javax.swing.JTextField();
+        fh_nueva_cita = new javax.swing.JTextField();
+        num_cita = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -57,106 +56,86 @@ public class ModificarCita extends JFrame {
 
         jPanel1.setLayout(null);
 
-        jLabel1.setFont(new java.awt.Font("Arabic Typesetting", 1, 36)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Modificar Cita");
         jPanel1.add(jLabel1);
         jLabel1.setBounds(0, 10, 660, 30);
 
-        jLabel3.setFont(new java.awt.Font("Arabic Typesetting", 0, 24)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Numero de Cita:");
         jPanel1.add(jLabel3);
         jLabel3.setBounds(30, 80, 160, 30);
         
-        jLabel2.setFont(new java.awt.Font("Arabic Typesetting", 0, 24)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Fecha Próxima Cita:");
         jPanel1.add(jLabel2);
         jLabel2.setBounds(30, 140, 160, 30);
        
-        Fecha_nueva_cita.setForeground(new java.awt.Color(204, 204, 204));
-        Fecha_nueva_cita.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        Fecha_nueva_cita.setText("AAAA-MM-DD HH:MM");
+        fh_nueva_cita.setForeground(new java.awt.Color(204, 204, 204));
+        fh_nueva_cita.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        fh_nueva_cita.setText("AAAA-MM-DD HH:MM");
        
-        jPanel1.add(Fecha_nueva_cita);
-        Fecha_nueva_cita.setBounds(250, 140, 370, 30);
-        Fecha_nueva_cita.addMouseListener(new MouseListener() {
-        	
+        jPanel1.add(fh_nueva_cita);
+        fh_nueva_cita.setBounds(250, 140, 370, 30);
+        fh_nueva_cita.addMouseListener(new MouseListener() {
         	@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
-        		Fecha_nueva_cita.setText("");
-        		Fecha_nueva_cita.setForeground(Color.BLACK);
-        		
+        		fh_nueva_cita.setText("");
+        		fh_nueva_cita.setForeground(Color.BLACK);
 			}
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
+
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
 			}
-			
-			
+
+			@Override
+			public void mouseExited(MouseEvent e) {	
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+			}	
 		});
 
-        Folio_cita.setForeground(new java.awt.Color(204, 204, 204));
-        Folio_cita.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        Folio_cita.setText("Folio de cita a cambiar");
-        Folio_cita.addMouseListener(new MouseListener() {
-			
+        num_cita.setForeground(new java.awt.Color(204, 204, 204));
+        num_cita.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        num_cita.setText("Folio de cita a cambiar");
+        num_cita.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
-				Folio_cita.setText("");
-				Folio_cita.setForeground(Color.BLACK);
+				num_cita.setText("");
+				num_cita.setForeground(Color.BLACK);
 			}
 
 			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
+			public void mouseEntered(MouseEvent arg0) {
 			}
 
 			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
+			public void mouseExited(MouseEvent arg0) {
 			}
 
 			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
+			public void mousePressed(MouseEvent arg0) {
 			}
 
 			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
+			public void mouseReleased(MouseEvent arg0) {
 			}
 		});
         
        
-        jPanel1.add(Folio_cita);
-        Folio_cita.setBounds(250, 80, 370, 30);
+        jPanel1.add(num_cita);
+        num_cita.setBounds(250, 80, 370, 30);
 
         jButton1.setText("Cancelar Cita");
         jPanel1.add(jButton1);
@@ -166,36 +145,38 @@ public class ModificarCita extends JFrame {
 
         jButton1.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-				ConnectDB cn = new ConnectDB();
-				Querys query = new Querys(ConnectDB.Conectar());
-				int Confirm;
-				Confirm=JOptionPane.showConfirmDialog(null, "Esta seguro de Cancelar la cita");
-				if(JOptionPane.OK_OPTION == Confirm){
-					try {
-						query.update("citas", "fh_prox_cita = null", "cita_fol_paciente='"+folio+"' AND num_cita='"+Folio_cita.getText()+"'");
-						JOptionPane.showMessageDialog(null, "Se ha actualizado la pr\u00f3xima cita al d\u00eda: "+Fecha_nueva_cita.getText());
-						HistorialClinico newwindows;
-						newwindows = new HistorialClinico(folio);
-						newwindows.dispose();
-						newwindows.setVisible(true);
-						newwindows.setTitle("Historial Cl\u00ednico");
-						Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-						int height = screen.height;
-						int width = screen.width;
-						newwindows.setLocation(50, 50);
-						newwindows.setSize(width-100, height-100);
-						newwindows.setResizable(false);
-					} catch (Exception e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+        		int confirm = JOptionPane.showConfirmDialog(null, "Esta seguro de Cancelar la cita");
+        		if (JOptionPane.OK_OPTION == confirm) {
+        			boolean delete = ctrl.cancelarCita(num_cita.getText());
+        			if (delete) {
+        				JOptionPane.showMessageDialog(null, "Se ha cancelado la pr\u00f3xima");
+					} else {
+						JOptionPane.showMessageDialog(null, "Ocurrio un problema al borrar la fila. Verifica la informacion."+fh_nueva_cita);
 					}
+				} else {
+					JOptionPane.showMessageDialog(null,"Se han cancelado la posposici\u00f3n exitosamente");
 				}
-				else{
-					JOptionPane.showMessageDialog(null,"Se han cancelado la posposici\u00f3n exitosamente");					
+        	}
+        });
+    
+//      ADD ACTIONLISTENER "ACTUALIZAR"
+        
+        jButton3.addActionListener(new ActionListener() {
+        	@Override
+			public void actionPerformed(ActionEvent e) {
+        		int confirm = JOptionPane.showConfirmDialog(null, "Esta seguro de querer posponer la cita a "+fh_nueva_cita.getText());
+        		if (JOptionPane.OK_OPTION == confirm) {
+        			boolean delete = ctrl.modificarCita(num_cita.getText(), fh_nueva_cita.getText());
+        			if (delete) {
+        				JOptionPane.showMessageDialog(null, "Se ha actualizado la pr\u00f3xima cita al d\u00eda: "+fh_nueva_cita.getText());
+					} else {
+						JOptionPane.showMessageDialog(null, "Ocurrio un problema al actualizar la fila. Verifica la informacion."+fh_nueva_cita);
+					}
+				} else {
+					JOptionPane.showMessageDialog(null,"Se han cancelado la posposici\u00f3n exitosamente");
 				}
-	}});
-    
-    
+        	}
+        });
 
         
         jButton2.setText("Volver al Historial");
@@ -205,10 +186,8 @@ public class ModificarCita extends JFrame {
 //        ADD ACTIONLISTENER "VOLVER AL HISTORIAL"
         
         jButton2.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
 				dispose();
 			}
 		});
@@ -217,51 +196,24 @@ public class ModificarCita extends JFrame {
         jPanel1.add(jButton3);
         jButton3.setBounds(80, 230, 190, 50);
         
-//        ADD ACTIONLISTENER "ACTUALIZAR"
-        
-        jButton3.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				ConnectDB cn = new ConnectDB();
-				Querys query = new Querys(ConnectDB.Conectar());
-					int Confirm;
-					Confirm=JOptionPane.showConfirmDialog(null, "Esta seguro de querer posponer la cita a "+Fecha_nueva_cita.getText());
-					if(JOptionPane.OK_OPTION == Confirm) {
-						JOptionPane.showMessageDialog(null, "Se ha actualizado la pr\u00f3xima cita al d\u00eda: "+Fecha_nueva_cita.getText());
-						try {
-							query.update("citas", "fh_prox_cita= '"+Fecha_nueva_cita.getText()+"'", "cita_fol_paciente='"+folio+"' AND num_cita='"+Folio_cita.getText()+"'");
-							HistorialClinico newwindows;
-							newwindows = new HistorialClinico(folio);
-							newwindows.dispose();
-							newwindows.setVisible(true);
-							newwindows.setTitle("Historial Cl\u00ednico");
-							Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-							int height = screen.height;
-							int width = screen.width;
-							newwindows.setLocation(50, 50);
-							newwindows.setSize(width-100, height-100);
-							newwindows.setResizable(false);
-						} catch (Exception e1) {
-							e1.printStackTrace();
-						}
-					} else {
-						JOptionPane.showMessageDialog(null,"Se han cancelado la posposici\u00f3n exitosamente");					
-					}
-		}});
-        
         getContentPane().add(jPanel1);
         jPanel1.setBounds(0, 0, 670, 410);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-   
-
-    
     /**
-     * @param args the command line arguments
-     */
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		try {
+			AddProduct dialog = new AddProduct();
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 //  
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -271,8 +223,8 @@ public class ModificarCita extends JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField Fecha_nueva_cita;
-    private javax.swing.JTextField Folio_cita;
+    private javax.swing.JTextField fh_nueva_cita;
+    private javax.swing.JTextField num_cita;
     // End of variables declaration//GEN-END:variables
 }
 

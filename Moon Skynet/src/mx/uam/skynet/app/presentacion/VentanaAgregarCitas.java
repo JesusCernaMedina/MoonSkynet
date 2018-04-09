@@ -7,6 +7,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import mx.uam.skynet.app.negocio.ControlAgregarCita;
 import mx.uam.skynet.app.persistencia.ConnectDB;
 import mx.uam.skynet.app.persistencia.Querys;
 
@@ -18,36 +19,22 @@ import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.awt.event.ActionEvent;
 
-public class Citas extends JDialog {
+public class VentanaAgregarCitas extends JDialog {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txt_fh_cita;
 	private JTextField txt_prox_cita;
 	private JTextField txt_desc;
 	private JTextField txt_tratamiento;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			Citas dialog = new Citas();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	private int id_cita;
 	private JTextField txt_pago;
-	private JButton btn_Save = new JButton("Guardar avance");
+	private ControlAgregarCita ctrl;
+	private JButton btn_Save = new JButton("Agendar cita");
 	private JLabel lblPago = new JLabel("Pago:");
 	private JLabel lblTratamiento = new JLabel("Tratamiento:");
 	private JLabel lblDescripcion = new JLabel("Descripcion:");
@@ -55,37 +42,14 @@ public class Citas extends JDialog {
 	private JLabel lblFechaCita = new JLabel("Fecha cita:");
 	private JLabel lblNuevaCita = new JLabel("Nueva Cita");
 	
-	public Citas(int id) {
-		id_cita = id;
-		initComponents();
-		
-		btn_Save.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				try {
-					Querys query = new Querys(ConnectDB.Conectar());
-					int update = query.insert("citas", "'"+id_cita+"', DEFAULT,'"+txt_fh_cita.getText()+
-                    		"','"+txt_prox_cita.getText()+"','"+txt_desc.getText()+"','"+txt_tratamiento.getText()+
-                    		"','"+Integer.parseInt(txt_pago.getText())+"'");
-		            if(update == 1){
-		                JOptionPane.showMessageDialog(null, "Avance guardado con exito");
-		            } else {
-		                JOptionPane.showMessageDialog(null, "Avance NO guardado");
-		            }                   
-		        } catch(SQLException err) {
-		            JOptionPane.showMessageDialog(null, "Hubo un error en la tabla" + err);
-		        }
-			}
-		});
-	}
-	
-	/**
-	 * Create the dialog.
-	 */
-	public Citas() {
+	public VentanaAgregarCitas(ControlAgregarCita ctrl) {
+		this.ctrl = ctrl;
 		initComponents();
 	}
 	
 	public void initComponents() {
+		Date date = new Date();
+	    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
 		setTitle("Nueva cita");
 		setBounds(100, 100, 333, 300);
 		getContentPane().setLayout(new BorderLayout());
@@ -121,7 +85,15 @@ public class Citas extends JDialog {
 		btn_Save.setBounds(104, 212, 129, 23);
 		contentPanel.add(btn_Save);
 		
+		btn_Save.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ctrl.agendarCita(txt_fh_cita.getText(), txt_prox_cita.getText(), txt_desc.getText(), 
+						txt_tratamiento.getText(), txt_pago.getText());
+			}
+		});
+		
 		txt_fh_cita = new JTextField();
+		txt_fh_cita.setText(dateFormat.format(date));
 		txt_fh_cita.setBounds(96, 53, 200, 20);
 		contentPanel.add(txt_fh_cita);
 		txt_fh_cita.setColumns(10);

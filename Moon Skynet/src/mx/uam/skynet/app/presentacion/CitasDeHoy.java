@@ -14,8 +14,7 @@ import javax.swing.JButton;
 
 public class CitasDeHoy extends JFrame implements ActionListener {
 	
-	public CitasDeHoy()
-	{
+	public CitasDeHoy() {
 		this.setTitle("Citas Programadas para hoy");                   
 	    this.setSize(610, 410);                                
 	    this.setLocationRelativeTo(null);                      

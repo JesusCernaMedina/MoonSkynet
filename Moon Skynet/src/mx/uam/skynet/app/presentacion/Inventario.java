@@ -71,12 +71,12 @@ public class Inventario extends JFrame {
 
 
 		label2.setAlignment(java.awt.Label.CENTER);
-		label2.setFont(new java.awt.Font("Arabic Typesetting", 0, 48)); // NOI18N
+		label2.setFont(new java.awt.Font("Times New Roman", 0, 48)); // NOI18N
 		label2.setText("Inventario");
 		panel1.add(label2);
 		label2.setBounds(0, 0, 1172, 92);
 
-		datos.setFont(new java.awt.Font("Arabic Typesetting", 0, 20)); // NOI18N
+		datos.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
 		
 		DefaultTableModel dfm = new DefaultTableModel();
 		datos.setModel(dfm);
@@ -95,8 +95,6 @@ public class Inventario extends JFrame {
 		 		e.printStackTrace();
 		 	}
 		
-			
-
 		ScrollPane.setViewportView(datos);
 
 		panel1.add(ScrollPane);
@@ -170,11 +168,23 @@ public class Inventario extends JFrame {
 			}
 		});
 
-
 		getContentPane().add(panel1);
 		panel1.setBounds(0, 0, x, y);
 
 		pack();
 		
+	}
+	
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		try {
+			Inventario dialog = new Inventario();
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

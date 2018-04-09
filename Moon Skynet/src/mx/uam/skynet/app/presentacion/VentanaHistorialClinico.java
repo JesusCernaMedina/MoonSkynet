@@ -7,33 +7,31 @@ import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.table.DefaultTableModel;
 
+import mx.uam.skynet.app.modelo.Paciente;
+import mx.uam.skynet.app.negocio.ControlHistorialClinico;
 import mx.uam.skynet.app.persistencia.ConnectDB;
 import mx.uam.skynet.app.persistencia.Querys;
 
 
-public class HistorialClinico extends JFrame {
+public class VentanaHistorialClinico extends JFrame {
 	
-	private ResultSet rs;
 	private JLabel label1 = new JLabel();
+	private ControlHistorialClinico ctrl;
 
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * Creates new form Historial_clinico
-	 * @throws SQLException 
-	 */
-	public HistorialClinico(String fol) throws SQLException {
-		initComponents(fol);
+	public VentanaHistorialClinico(ControlHistorialClinico ctrl) {
+		this.ctrl = ctrl;
+		initComponents();
 	}
-	String folio; 
 
-	private void initComponents(final String fol) throws SQLException {
-		folio = fol;
+	private void initComponents() {
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		final int x = screen.width;
 		final int y = screen.height;
@@ -52,10 +50,10 @@ public class HistorialClinico extends JFrame {
 		ButtonAdd = new javax.swing.JButton();
 		ButtonPostpone = new javax.swing.JButton();
 		ButtonCancel = new javax.swing.JButton();
+		JButton ButtonGR = new javax.swing.JButton();
 
 		label3.setAlignment(java.awt.Label.CENTER);
-		label3.setFont(new java.awt.Font("Arabic Typesetting", 0, 48)); // NOI18N
-		label3.setText("Historial Cl\u00ednico");
+		label3.setFont(new java.awt.Font("Times New Roman", 0, 48)); // NOI18N
 
 		setBackground(new java.awt.Color(255, 255, 255));
 		getContentPane().setLayout(null);
@@ -64,28 +62,15 @@ public class HistorialClinico extends JFrame {
 		panel1.setLayout(null);
 
 		label1.setAlignmentX(java.awt.Label.CENTER);
-		label1.setFont(new java.awt.Font("Arabic Typesetting", 0, 48)); // NOI18N
-		label1.setText("Historial Cl\u00ednico");
+		label1.setFont(new java.awt.Font("Times New Roman", 0, 48)); // NOI18N
 		panel1.add(label1);
-		label1.setBounds(0, 0, 1172, 92);
+		label1.setBounds(110, 110, 1172, 92);
 
-		jTable2.setFont(new java.awt.Font("Arabic Typesetting", 0, 20)); // NOI18N
+		jTable2.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
 		
 		DefaultTableModel dfm = new DefaultTableModel();
+		dfm = ctrl.verCitas();
 		jTable2.setModel(dfm);
-		dfm.setColumnIdentifiers(new Object[]{"Folio de cita","Ultima cita","Descripci\u00f3n","Tratamiento","Pr\u00f3xima cita"});
-		
-		Querys query = new Querys(ConnectDB.Conectar());	
-		 	try{
-		 		rs = query.selectWhere("cita_fol_paciente, fh_ult_cita, descripcion, tratamiento, fh_prox_cita", 
-		 				"citas", "cita_fol_paciente = '"+fol+"'").executeQuery();
-		 		while(rs.next()){
-		 			dfm.addRow(new Object[]{rs.getInt("cita_fol_paciente"),rs.getString("fh_ult_cita"),rs.getString("descripcion"), rs.getString("tratamiento"), rs.getString("fh_prox_cita")});
-		 		}
-		 	}
-		 	catch(Exception e){
-		 		e.printStackTrace();
-		 	}
 		 	
 		jScrollPane2.setViewportView(jTable2);
 
@@ -93,44 +78,36 @@ public class HistorialClinico extends JFrame {
 		jScrollPane2.setBounds(40, 130, 1090, 350);
 
 		jLabel2.setBackground(new java.awt.Color(204, 204, 204));
-		jLabel2.setFont(new java.awt.Font("Arabic Typesetting", 0, 36)); // NOI18N
+		jLabel2.setFont(new java.awt.Font("Times New Roman", 0, 36)); // NOI18N
 		jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 		jLabel2.setText("Paciente:");
 		panel1.add(jLabel2);
 		jLabel2.setBounds(40, 100, 540, 30);
 
 		label2.setAlignment(java.awt.Label.CENTER);
-		label2.setFont(new java.awt.Font("Arabic Typesetting", 0, 48)); // NOI18N
+		label2.setFont(new java.awt.Font("Times New Roman", 0, 48)); // NOI18N
 		label2.setText("Historial Cl\u00ednico");
 		panel1.add(label2);
 		label2.setBounds(0, 0, 1172, 92);
-
-			jLabel1.setFont(new java.awt.Font("Arabic Typesetting", 1, 36)); // NOI18N
-			jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-			jLabel1.setText(ConnectDB.getNombre()+" "+ ConnectDB.getApellido() );
-			panel1.add(jLabel1);
-			jLabel1.setBounds(580, 100, 550, 30);
+		
+		Paciente paciente = ctrl.verNombreCompleto();
+	 	
+		jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
+		jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+		jLabel1.setText(paciente.getNombre() +" "+ paciente.getApellidos());
+		panel1.add(jLabel1);
+		jLabel1.setBounds(580, 100, 550, 30);
 	
 
 		ButtonAdd.setText("Agregar");
 		ButtonAdd.setBounds((windowx/9),windowy-200 , 140, 30);
 		panel1.add(ButtonAdd);
 		ButtonAdd.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
-		try {
-			
-			Citas dialog = new Citas(Integer.parseInt(fol));
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
-	}
-
-	
-	});
+				ctrl.iniciaControlAgregarCita();
+			}
+		});
 
 		//        ADD ACTIONLISTENER BUTTON ADD
 
@@ -141,23 +118,9 @@ public class HistorialClinico extends JFrame {
 		//        ADD ACTIONLISTENER BUTTON POSTPONER
 
 		ButtonPostpone.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-
-				ModificarCita WindowsPostpone= new ModificarCita(fol);
-
-				WindowsPostpone.setVisible(true);
-				WindowsPostpone.setTitle("Modificar Cita");
-
-				Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-				int height = screen.height;
-				int width = screen.width;
-				WindowsPostpone.setLocation(width/4, height/5);
-				WindowsPostpone.setSize(width/2, (height/2)+50);
-				WindowsPostpone.setResizable(false);
-
+				ctrl.iniciaControlModificarCita();
 			}
 		});
 
@@ -175,7 +138,17 @@ public class HistorialClinico extends JFrame {
 				dispose();
 			}
 		});
+		
+		ButtonGR.setText("Generar Receta");
+		ButtonGR.setBounds((windowx-(windowx/9))-585,windowy-150 , 140, 30);
+		panel1.add(ButtonGR);
 
+		ButtonGR.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ctrl.iniciaControlGeneraReceta();
+			}
+		});
 
 		getContentPane().add(panel1);
 		panel1.setBounds(0, 0, x, y);
@@ -184,8 +157,18 @@ public class HistorialClinico extends JFrame {
 	}// </editor-fold>//GEN-END:initComponents
 
 	/**
-	 * @param args the command line arguments
+	 * Launch the application.
 	 */
+	public static void main(String[] args) {
+		try {
+			ControlHistorialClinico ctrl = new ControlHistorialClinico("2");
+			VentanaHistorialClinico dialog = new VentanaHistorialClinico(ctrl);
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables

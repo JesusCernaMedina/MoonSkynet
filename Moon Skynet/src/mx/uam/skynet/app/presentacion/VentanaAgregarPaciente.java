@@ -22,6 +22,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
+
+import mx.uam.skynet.app.negocio.ControlAgregarPaciente;
 import mx.uam.skynet.app.persistencia.ConnectDB;
 import mx.uam.skynet.app.persistencia.Querys;
 
@@ -30,11 +32,8 @@ import mx.uam.skynet.app.persistencia.Querys;
  * @author Jesus Cerna Medina
  *
  */
-public class AddClient extends JDialog {
+public class VentanaAgregarPaciente extends JDialog {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField name;
@@ -43,49 +42,36 @@ public class AddClient extends JDialog {
 	private JTextField age;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			AddClient dialog = new AddClient();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
 	 * Create the dialog.
 	 */
-	public AddClient() {
+	public VentanaAgregarPaciente(ControlAgregarPaciente ctrl) {
 		setTitle("Agregar Cliente");
 		setBounds(100, 100, 365, 366);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		
-		JLabel lblNuevoCliente = new JLabel("Nuevo Cliente");
+		JLabel lblNuevoCliente = new JLabel("Registra un nuevo cliente");
 		lblNuevoCliente.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNuevoCliente.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblNuevoCliente.setFont(new Font("Times New Roman", Font.PLAIN, 18));
 		
 		JLabel lblNombre = new JLabel("Nombre:");
-		lblNombre.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblNombre.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		
 		JLabel lblApellidos = new JLabel("Apellidos:");
-		lblApellidos.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblApellidos.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		
 		JLabel lblTelefono = new JLabel("Telefono:");
-		lblTelefono.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblTelefono.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		
-		JLabel lblEmail = new JLabel("E-mail:");
-		lblEmail.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		JLabel lblEmail = new JLabel("Correo:");
+		lblEmail.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		
 		JLabel lblDireccion = new JLabel("Direccion:");
-		lblDireccion.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblDireccion.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		
 		JLabel lblEdad = new JLabel("Edad:");
-		lblEdad.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblEdad.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		
 		name = new JTextField();
 		name.setColumns(10);
@@ -105,33 +91,23 @@ public class AddClient extends JDialog {
 		JTextArea address = new JTextArea();
 		address.setLineWrap(true);
 		
-		JButton btnAceptar = new JButton("Aceptar");
+		JButton btnAceptar = new JButton("Siguiente");
 		btnAceptar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int id_paciente = 0;
-				try{
-					Querys query = new Querys(ConnectDB.Conectar()); 
-		             int update = query.insert("pacientes", "DEFAULT,'"+name.getText()+"','"+last_name.getText()+
-								"','"+phone.getText()+"','"+email.getText()+"','"+Integer.parseInt(age.getText())+"','"+address.getText()+"'");
-		            if(update == 1){
-		                JOptionPane.showMessageDialog(null, "Datos guardados con exito");
-		                PreparedStatement buscar = query.select("MAX(fol_paciente)", "pacientes");
-		                ResultSet select = buscar.executeQuery();
-		                
-		                while(select.next()) {
-		                	id_paciente = select.getInt(1);
-		                	System.out.println("Folio: " + id_paciente);
-		                }
+				if (name.getText().isEmpty() || last_name.getText().isEmpty() || phone.getText().isEmpty() || 
+						email.getText().isEmpty() || age.getText().isEmpty() || address.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Verifique que todos los campos esten llenos.");
+				} else {
+					int insert = ctrl.regPaciente(name.getText(), last_name.getText(), phone.getText(), email.getText(), 
+							age.getText(), address.getText());
+					if(insert == 1) {
+		                JOptionPane.showMessageDialog(null, "Cliente registrado con exito.\n Agendale una cita a " + name.getText());
 		                dispose();
-		                Citas cita = new Citas(id_paciente);
-		                cita.setVisible(true);
+		                ctrl.iniciaCita(ctrl.idUltRegistro());
 		            } else {
-		                JOptionPane.showMessageDialog(null, "Datos NO guardados");
+		                JOptionPane.showMessageDialog(null, "Datos NO guardados. Verificar los campos");
 		            }
-		                                 
-		        } catch(SQLException err) {
-		            JOptionPane.showMessageDialog(null, "Hubo un error en la tabla" + err);
-		        }
+				}
 			}
 		});
 		

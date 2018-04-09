@@ -71,6 +71,7 @@ public class ChangeProduct extends JDialog {
 		contentPanel.add(lblModificarUnProducto);
 		
 		rdbtnModificarNombre = new JRadioButton("Modificar Nombre");
+		rdbtnModificarNombre.setFont(new Font("Times New Roman", Font.PLAIN, 11));
 		rdbtnModificarNombre.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
 				textId2.setEditable(false);
@@ -81,10 +82,11 @@ public class ChangeProduct extends JDialog {
 			}
 		});
 		rdbtnModificarNombre.setHorizontalAlignment(SwingConstants.CENTER);
-		rdbtnModificarNombre.setBounds(186, 47, 109, 23);
+		rdbtnModificarNombre.setBounds(186, 47, 116, 23);
 		contentPanel.add(rdbtnModificarNombre);
 		
 		rdbtnModificarCantidad = new JRadioButton("Modificar cantidad");
+		rdbtnModificarCantidad.setFont(new Font("Times New Roman", Font.PLAIN, 11));
 		rdbtnModificarCantidad.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
 				textId1.setEditable(false);
