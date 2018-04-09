@@ -58,6 +58,7 @@ public class ChangeProduct extends JDialog {
 	 * Create the dialog.
 	 */
 	public ChangeProduct() {
+		setTitle("Modificar producto");
 		setBounds(100, 100, 497, 300);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));

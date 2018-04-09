@@ -40,7 +40,6 @@ public class VentanaModificarCita extends JFrame {
     
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -50,12 +49,12 @@ public class VentanaModificarCita extends JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-
+        
 //        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
 
         jPanel1.setLayout(null);
-
+        setTitle("Modificar cita");
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Modificar Cita");
@@ -77,7 +76,7 @@ public class VentanaModificarCita extends JFrame {
         fh_nueva_cita.setForeground(new java.awt.Color(204, 204, 204));
         fh_nueva_cita.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         fh_nueva_cita.setText("AAAA-MM-DD HH:MM");
-       
+        
         jPanel1.add(fh_nueva_cita);
         fh_nueva_cita.setBounds(250, 140, 370, 30);
         fh_nueva_cita.addMouseListener(new MouseListener() {
@@ -207,7 +206,8 @@ public class VentanaModificarCita extends JFrame {
 	 */
 	public static void main(String[] args) {
 		try {
-			AddProduct dialog = new AddProduct();
+			ControlModificarCita ctrl = new ControlModificarCita(2);
+			VentanaModificarCita dialog = new VentanaModificarCita(ctrl);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {

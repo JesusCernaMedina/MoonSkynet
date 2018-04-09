@@ -45,6 +45,7 @@ public class AddProduct extends JDialog {
 	 * Create the dialog.
 	 */
 	public AddProduct() {
+		setTitle("Agregar nuevo producto");
 		setBounds(100, 100, 450, 225);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));

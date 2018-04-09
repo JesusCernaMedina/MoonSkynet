@@ -48,6 +48,7 @@ public class RemoveProduct extends JDialog {
 	 * Create the dialog.
 	 */
 	public RemoveProduct() {
+		setTitle("Eliminar producto");
 		setBounds(100, 100, 450, 200);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));

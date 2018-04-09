@@ -54,6 +54,7 @@ public class Inventario extends JFrame {
 		int windowy = (y-100);
 		
 		panel1 = new java.awt.Panel();
+		setTitle("Inventario");
 
 		ScrollPane = new javax.swing.JScrollPane();
 		datos = new javax.swing.JTable();

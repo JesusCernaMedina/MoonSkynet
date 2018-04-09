@@ -36,6 +36,7 @@ public class DAOPaciente extends Querys {
 	        while(select.next()) {
 	        	id_paciente = select.getInt(1);
 	        }
+	        
 		} catch (Exception e) {
 			System.out.println("Error: " + e);
 		}
@@ -92,9 +93,11 @@ public class DAOPaciente extends Querys {
 	 			paciente.setNombre(rs.getString("nombre"));
 	 			paciente.setApellidos(rs.getString("apellidos"));
 	 		}
+	 		System.out.println("Se encontro paciente exitosamente: " + paciente.getNombre());
 	 	}
 	 	catch(Exception e){
 	 		e.printStackTrace();
+	 		System.out.println("No se pudo encontrar pasiente. Ocurrio un error");
 	 	}
 		System.out.println("Estoy saliendo del metodo: buscaNombreCompleto");
 		return paciente;
